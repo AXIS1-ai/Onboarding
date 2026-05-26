@@ -1,143 +1,127 @@
+const STORAGE_KEY = "axis1_onboarding_v2";
 const AXIS_WHATSAPP = "5516997424912";
-const STORAGE_KEY = "axis1_onboarding_draft_v1";
-const $ = (id) => document.getElementById(id);
-const steps = Array.from(document.querySelectorAll(".step"));
-let currentStep = 1;
-let lastSummary = "";
+const steps = Array.from(document.querySelectorAll(".form-step"));
+const menuSteps = Array.from(document.querySelectorAll(".step"));
+let current = 0;
 
-function toast(message){
+const $ = (id) => document.getElementById(id);
+
+function toast(msg){
   const el = $("toast");
-  el.textContent = message;
+  el.textContent = msg;
   el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), 3200);
+  setTimeout(()=>el.classList.remove("show"),2500);
 }
 
-function collectData(){
-  const form = $("onboardingForm");
+function collect(){
   const data = {};
-  Array.from(form.elements).forEach(el => {
+  const form = $("onboardingForm");
+  Array.from(form.elements).forEach(el=>{
     if(!el.name) return;
     if(el.type === "checkbox"){
       if(!data[el.name]) data[el.name] = [];
       if(el.checked) data[el.name].push(el.value);
       return;
     }
-    data[el.name] = el.value.trim();
+    data[el.name] = el.value || "";
   });
-  data.geradoEm = new Date().toLocaleString("pt-BR");
   return data;
 }
 
-function saveDraft(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(collectData()));
+function save(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(collect()));
 }
 
-function loadDraft(){
+function load(){
   try{
     const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    Object.entries(data).forEach(([key, value]) => {
-      if(key === "objetivos" && Array.isArray(value)){
-        value.forEach(v => {
-          const el = Array.from(document.querySelectorAll('input[name="objetivos"]')).find(input => input.value === v);
+    Object.entries(data).forEach(([k,v])=>{
+      if(k === "objetivos" && Array.isArray(v)){
+        v.forEach(val=>{
+          const el = Array.from(document.querySelectorAll('input[name="objetivos"]')).find(i=>i.value===val);
           if(el) el.checked = true;
         });
-        return;
+      } else {
+        const el = document.querySelector(`[name="${k}"]`);
+        if(el) el.value = v;
       }
-      const el = document.querySelector(`[name="${key}"]`);
-      if(el) el.value = value;
     });
-  }catch{}
+  }catch(e){}
 }
 
-function updateStep(){
-  steps.forEach(step => step.classList.toggle("active", Number(step.dataset.step) === currentStep));
-  const active = steps[currentStep - 1];
-  $("stepLabel").textContent = `Etapa ${currentStep} de ${steps.length}`;
-  $("stepTitle").textContent = active.dataset.title;
-  $("progressFill").style.width = `${(currentStep / steps.length) * 100}%`;
-  $("prevBtn").disabled = currentStep === 1;
-  $("prevBtn").style.opacity = currentStep === 1 ? ".45" : "1";
-  $("nextBtn").classList.toggle("hidden", currentStep === steps.length);
-  $("finishBtn").classList.toggle("hidden", currentStep !== steps.length);
-  window.scrollTo({top:0, behavior:"smooth"});
-}
-
-function validateCurrentStep(){
-  const active = steps[currentStep - 1];
-  const required = Array.from(active.querySelectorAll("[required]"));
+function validate(){
+  const required = Array.from(steps[current].querySelectorAll("[required]"));
   for(const input of required){
     if(!input.value.trim()){
       input.focus();
-      toast("Preencha os campos obrigatórios antes de continuar.");
+      toast("Preencha os campos obrigatórios.");
       return false;
     }
-  }
-  const email = $("email").value.trim();
-  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    $("email").focus();
-    toast("Informe um e-mail válido.");
-    return false;
   }
   return true;
 }
 
-function formatLine(label, value){
-  if(Array.isArray(value)) value = value.length ? value.join(", ") : "-";
-  return `${label}: ${value || "-"}`;
+function update(){
+  steps.forEach((s,i)=>s.classList.toggle("active", i===current));
+  menuSteps.forEach((s,i)=>s.classList.toggle("active", i===current));
+  $("stepCounter").textContent = `Etapa ${current+1} de ${steps.length}`;
+  $("stepName").textContent = steps[current].dataset.title;
+  $("progressFill").style.width = `${((current+1)/steps.length)*100}%`;
+  $("prevBtn").style.visibility = current === 0 ? "hidden" : "visible";
+  $("nextBtn").classList.toggle("hidden", current === steps.length-1);
+  $("finishBtn").classList.toggle("hidden", current !== steps.length-1);
 }
 
-function buildSummary(data){
-  return `ONBOARDING DE CLIENTE — AXIS 1
+function summaryText(){
+  const d = collect();
+  return `ONBOARDING AXIS 1
 
 DADOS DA EMPRESA
-${formatLine("Empresa / marca", data.empresa)}
-${formatLine("Responsável", data.responsavel)}
-${formatLine("CNPJ / CPF", data.documento)}
-${formatLine("Segmento", data.segmento)}
-${formatLine("WhatsApp", data.whatsapp)}
-${formatLine("E-mail", data.email)}
+Empresa: ${d.empresa || "-"}
+Responsável: ${d.responsavel || "-"}
+Documento: ${d.documento || "-"}
+Área: ${d.area || "-"}
+WhatsApp: ${d.whatsapp || "-"}
+E-mail: ${d.email || "-"}
+Segmento: ${d.segmento || "-"}
+Cidade: ${d.cidade || "-"}
+Tempo de mercado: ${d.tempo || "-"}
+Faturamento: ${d.faturamento || "-"}
 
-PRESENÇA DIGITAL
-${formatLine("Instagram", data.instagram)}
-${formatLine("Site", data.site)}
-${formatLine("Google Meu Negócio", data.google)}
-${formatLine("LinkedIn / outro canal", data.linkedin)}
+IDENTIDADE VISUAL
+Cores: ${d.cores || "-"}
+Estilo: ${d.estilo || "-"}
+Logo / arquivos: ${d.logo || "-"}
+O que não deve parecer: ${d.naoParecer || "-"}
 
-MARCA E IDENTIDADE
-${formatLine("Cores principais", data.cores)}
-${formatLine("Fontes / estilo visual", data.fontes)}
-${formatLine("Logo / arquivos", data.logo)}
-${formatLine("Referências visuais", data.referenciasVisuais)}
-${formatLine("O que não deve parecer", data.naoParecer)}
-
-PÚBLICO E POSICIONAMENTO
-${formatLine("Cliente ideal", data.clienteIdeal)}
-${formatLine("Diferencial", data.diferencial)}
-${formatLine("Produtos / serviços", data.servicos)}
-${formatLine("Ticket médio", data.ticket)}
+MERCADO E CONCORRÊNCIA
+Concorrentes: ${d.concorrentes || "-"}
+Marcas que admira: ${d.marcas || "-"}
 
 OBJETIVOS
-${formatLine("Prioridades", data.objetivos)}
-${formatLine("Objetivo principal", data.objetivoPrincipal)}
+Objetivos: ${(d.objetivos || []).join(", ") || "-"}
+Objetivo principal: ${d.objetivoPrincipal || "-"}
 
-CONCORRENTES E REFERÊNCIAS
-${formatLine("Concorrentes", data.concorrentes)}
-${formatLine("Marcas que admira", data.marcasAdmira)}
+ACESSOS E CONTATOS
+Envio de acessos: ${d.envioAcessos || "-"}
+Responsável por aprovações: ${d.responsavelAprovacao || "-"}
+Instagram: ${d.instagram || "-"}
+Site: ${d.site || "-"}
 
-ACESSOS E MATERIAIS
-${formatLine("Envio de acessos", data.envioAcessos)}
-${formatLine("Pasta de materiais", data.pastaMateriais)}
-${formatLine("Fotos profissionais", data.fotosProfissionais)}
-${formatLine("Responsável por aprovações", data.responsavelAprovacao)}
+REFERÊNCIAS
+Referências visuais: ${d.referenciasVisuais || "-"}
+Pasta de materiais: ${d.pastaMateriais || "-"}
 
-OBSERVAÇÕES
-${formatLine("Observações finais", data.observacoes)}
+INFORMAÇÕES ADICIONAIS
+Serviços principais: ${d.servicos || "-"}
+Cliente ideal: ${d.clienteIdeal || "-"}
+Observações: ${d.observacoes || "-"}
 
-Gerado em: ${data.geradoEm}`;
+Gerado em: ${new Date().toLocaleString("pt-BR")}`;
 }
 
-function downloadFile(filename, content, type="text/plain"){
-  const blob = new Blob([content], {type});
+function download(filename, content){
+  const blob = new Blob([content], {type:"text/plain"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = filename;
@@ -145,81 +129,35 @@ function downloadFile(filename, content, type="text/plain"){
   URL.revokeObjectURL(a.href);
 }
 
-function finishOnboarding(e){
+$("nextBtn").onclick = () => {
+  if(!validate()) return;
+  save();
+  current = Math.min(current+1, steps.length-1);
+  update();
+};
+
+$("prevBtn").onclick = () => {
+  save();
+  current = Math.max(current-1, 0);
+  update();
+};
+
+$("onboardingForm").onsubmit = (e) => {
   e.preventDefault();
-  if(!validateCurrentStep()) return;
-  const data = collectData();
-  lastSummary = buildSummary(data);
-  $("summaryOutput").textContent = lastSummary;
-  $("resultPanel").classList.remove("hidden");
-  $("resultPanel").scrollIntoView({behavior:"smooth", block:"start"});
-  saveDraft();
-  toast("Onboarding gerado com sucesso.");
-}
+  if(!validate()) return;
+  save();
+  $("summary").textContent = summaryText();
+  toast("Resumo gerado.");
+};
 
-function exportJson(){
-  const data = collectData();
-  const name = (data.empresa || "cliente").toLowerCase().replace(/[^a-z0-9]+/gi,"-").replace(/^-|-$/g,"");
-  downloadFile(`onboarding-axis1-${name || "cliente"}.json`, JSON.stringify(data, null, 2), "application/json");
-  toast("Arquivo JSON exportado.");
-}
+$("copyBtn").onclick = () => navigator.clipboard.writeText(summaryText()).then(()=>toast("Resumo copiado."));
+$("downloadBtn").onclick = () => download("onboarding-axis1.txt", summaryText());
+$("whatsappBtn").onclick = () => window.open(`https://wa.me/${AXIS_WHATSAPP}?text=${encodeURIComponent(summaryText())}`,"_blank");
 
-function downloadTxt(){
-  const content = lastSummary || buildSummary(collectData());
-  const data = collectData();
-  const name = (data.empresa || "cliente").toLowerCase().replace(/[^a-z0-9]+/gi,"-").replace(/^-|-$/g,"");
-  downloadFile(`onboarding-axis1-${name || "cliente"}.txt`, content, "text/plain");
-}
-
-function sendWhatsapp(){
-  const content = lastSummary || buildSummary(collectData());
-  const msg = encodeURIComponent(content);
-  window.open(`https://wa.me/${AXIS_WHATSAPP}?text=${msg}`, "_blank");
-}
-
-function copySummary(){
-  const content = lastSummary || buildSummary(collectData());
-  navigator.clipboard.writeText(content).then(
-    () => toast("Resumo copiado."),
-    () => toast("Não foi possível copiar automaticamente.")
-  );
-}
-
-function resetForm(){
-  if(!confirm("Deseja limpar o onboarding preenchido?")) return;
-  $("onboardingForm").reset();
-  localStorage.removeItem(STORAGE_KEY);
-  $("resultPanel").classList.add("hidden");
-  lastSummary = "";
-  currentStep = 1;
-  updateStep();
-  toast("Formulário limpo.");
-}
-
-$("nextBtn").addEventListener("click", () => {
-  if(!validateCurrentStep()) return;
-  saveDraft();
-  currentStep = Math.min(currentStep + 1, steps.length);
-  updateStep();
+document.querySelectorAll("input,textarea,select").forEach(el=>{
+  el.addEventListener("input", save);
+  el.addEventListener("change", save);
 });
 
-$("prevBtn").addEventListener("click", () => {
-  saveDraft();
-  currentStep = Math.max(currentStep - 1, 1);
-  updateStep();
-});
-
-$("onboardingForm").addEventListener("submit", finishOnboarding);
-$("exportJson").addEventListener("click", exportJson);
-$("downloadTxt").addEventListener("click", downloadTxt);
-$("sendWhatsapp").addEventListener("click", sendWhatsapp);
-$("copySummary").addEventListener("click", copySummary);
-$("resetForm").addEventListener("click", resetForm);
-
-document.querySelectorAll("input, textarea, select").forEach(el => {
-  el.addEventListener("input", saveDraft);
-  el.addEventListener("change", saveDraft);
-});
-
-loadDraft();
-updateStep();
+load();
+update();

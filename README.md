@@ -2,10 +2,11 @@
 
 Arquivos prontos para GitHub Pages.
 
-Suba:
+Suba todos os arquivos:
 - index.html
 - style.css
-- LOGO OFICIAL AXIS1 bco.png
+- script.js
+- logo-axis1.png
 
-Depois:
-Settings > Pages > main > root
+Configuração:
+Settings > Pages > Branch main > root

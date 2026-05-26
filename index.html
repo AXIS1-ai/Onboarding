@@ -1,125 +1,242 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AXIS 1 | Onboarding</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AXIS 1 | Onboarding</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="bg"></div>
 
-<div class="bg"></div>
+  <div class="layout">
+    <aside class="sidebar">
+      <img src="logo-axis1.png" class="logo" alt="AXIS 1" />
 
-<div class="layout">
-
-<aside class="sidebar">
-    <img src="LOGO OFICIAL AXIS1 bco.png" class="logo" alt="AXIS1">
-
-    <div class="side-text">
+      <div class="side-text">
         <span>ONBOARDING</span>
         <h2>AXIS 1</h2>
         <p>Integração que gera resultado.</p>
-    </div>
+      </div>
 
-    <div class="steps">
-        <div class="step active">1 <span>Boas-vindas</span></div>
-        <div class="step">2 <span>Identidade</span></div>
-        <div class="step">3 <span>Concorrência</span></div>
-        <div class="step">4 <span>Objetivos</span></div>
-        <div class="step">5 <span>Acessos</span></div>
-        <div class="step">6 <span>Referências</span></div>
-        <div class="step">7 <span>Revisão</span></div>
-    </div>
+      <div class="steps">
+        <div class="step active"><b>1</b><span>Dados da empresa</span></div>
+        <div class="step"><b>2</b><span>Identidade visual</span></div>
+        <div class="step"><b>3</b><span>Mercado e concorrência</span></div>
+        <div class="step"><b>4</b><span>Objetivos</span></div>
+        <div class="step"><b>5</b><span>Acessos e contatos</span></div>
+        <div class="step"><b>6</b><span>Referências</span></div>
+        <div class="step"><b>7</b><span>Informações adicionais</span></div>
+        <div class="step"><b>8</b><span>Resumo final</span></div>
+      </div>
 
-    <div class="security">
-        <strong>🔒 Seus dados estão seguros</strong>
+      <div class="security">
+        <strong>🛡️ Seus dados estão seguros</strong>
         <p>Todas as informações ficam armazenadas apenas no seu navegador.</p>
-    </div>
-</aside>
+      </div>
+    </aside>
 
-<main class="content">
+    <main class="content">
+      <header class="topbar">
+        <div class="save">☁ Salvamento automático ativo <span></span></div>
+      </header>
 
-<header class="topbar">
-    <div class="save">☁ Salvamento automático ativo</div>
-</header>
-
-<section class="hero">
-    <img src="LOGO OFICIAL AXIS1 bco.png" class="hero-logo" alt="AXIS1">
-
-    <h1>ONBOARDING DO CLIENTE</h1>
-    <p>Vamos entender seu negócio para criar uma estratégia sob medida.</p>
-
-    <div class="progress">
-        <div class="circle active">1</div>
-        <div class="line"></div>
-        <div class="circle">2</div>
-        <div class="line"></div>
-        <div class="circle">3</div>
-        <div class="line"></div>
-        <div class="circle">4</div>
-        <div class="line"></div>
-        <div class="circle">5</div>
-        <div class="line"></div>
-        <div class="circle">6</div>
-        <div class="line"></div>
-        <div class="circle">7</div>
-    </div>
-</section>
-
-<section class="card">
-
-<div class="welcome">
-    <div>
-        <h2>👋 Bem-vindo!</h2>
-        <p>Este onboarding vai nos ajudar a entender melhor o seu negócio e criar uma estratégia personalizada que gera resultados reais.</p>
-
-        <div class="list">
-            <span>✔ Responda cada etapa</span>
-            <span>✔ Seus dados são salvos automaticamente</span>
-            <span>✔ Você pode pausar e continuar depois</span>
+      <section class="hero">
+        <img src="logo-axis1.png" class="hero-logo" alt="AXIS 1" />
+        <div>
+          <p class="eyebrow">ONBOARDING OFICIAL</p>
+          <h1>Bem-vindo à AXIS 1.</h1>
+          <p>Este formulário organiza as principais informações da sua marca para iniciarmos o trabalho com clareza, estratégia e padrão profissional.</p>
         </div>
 
-        <div class="time">
-            ⚡ Tempo estimado<br>
-            <strong>5 a 10 minutos</strong>
+        <div class="start-card">
+          <strong>Antes de começar:</strong>
+          <p>Preencha com atenção. Quanto mais claras forem as informações, mais assertiva será a comunicação da sua marca.</p>
         </div>
-    </div>
+      </section>
 
-    <form class="form">
-        <label>Nome completo *
-            <input placeholder="Ex: João da Silva">
-        </label>
+      <section class="progress-card">
+        <div>
+          <span id="stepCounter">Etapa 1 de 8</span>
+          <strong id="stepName">Dados da empresa</strong>
+        </div>
+        <div class="progress-bar"><i id="progressFill"></i></div>
+      </section>
 
-        <div class="grid">
+      <form id="onboardingForm" class="card">
+        <section class="form-step active" data-title="Dados da empresa">
+          <h2>Dados da empresa</h2>
+          <p>Informações básicas para cadastro, contrato, comunicação e organização interna.</p>
+
+          <div class="grid">
+            <label>Nome da empresa / marca *
+              <input name="empresa" required placeholder="Ex: Clínica Exemplo" />
+            </label>
+            <label>Responsável *
+              <input name="responsavel" required placeholder="Nome do responsável" />
+            </label>
+            <label>CNPJ / CPF
+              <input name="documento" placeholder="00.000.000/0000-00" />
+            </label>
+            <label>Área de atuação *
+              <input name="area" required placeholder="Ex: Estética" />
+            </label>
+            <label>WhatsApp principal *
+              <input name="whatsapp" required placeholder="(16) 99999-9999" />
+            </label>
             <label>E-mail *
-                <input placeholder="seu@email.com">
+              <input name="email" type="email" required placeholder="seu@email.com" />
             </label>
+            <label>Segmento / Nicho *
+              <input name="segmento" required placeholder="Ex: Clínica de Estética" />
+            </label>
+            <label>Cidade / Estado *
+              <input name="cidade" required placeholder="Ex: São Paulo / SP" />
+            </label>
+            <label>Tempo de mercado *
+              <input name="tempo" required placeholder="Ex: 2 anos" />
+            </label>
+            <label>Faturamento médio mensal
+              <input name="faturamento" placeholder="Ex: R$ 20.000,00" />
+            </label>
+          </div>
+        </section>
 
-            <label>WhatsApp *
-                <input placeholder="(16) 99999-9999">
+        <section class="form-step" data-title="Identidade visual">
+          <h2>Identidade visual</h2>
+          <p>Essas respostas ajudam a manter coerência visual e melhorar a percepção de valor.</p>
+
+          <div class="grid">
+            <label>Cores principais da marca
+              <input name="cores" placeholder="Ex: preto, dourado, verde..." />
             </label>
+            <label>Estilo desejado
+              <input name="estilo" placeholder="Ex: premium, moderno, minimalista..." />
+            </label>
+            <label>Link do logo / pasta de arquivos
+              <input name="logo" placeholder="Google Drive, Dropbox, WeTransfer..." />
+            </label>
+            <label>O que a marca NÃO deve parecer?
+              <input name="naoParecer" placeholder="Ex: popular demais, infantil, genérica..." />
+            </label>
+          </div>
+        </section>
+
+        <section class="form-step" data-title="Mercado e concorrência">
+          <h2>Mercado e concorrência</h2>
+          <p>A AXIS 1 usa essas informações para analisar mercado, diferenciação e oportunidades.</p>
+
+          <div class="grid">
+            <label>Principais concorrentes
+              <textarea name="concorrentes" placeholder="Nomes, @perfis, sites ou links"></textarea>
+            </label>
+            <label>Marcas que admira
+              <textarea name="marcas" placeholder="Perfis, campanhas, marcas ou estilos que gosta"></textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="form-step" data-title="Objetivos">
+          <h2>Objetivos</h2>
+          <p>A estratégia precisa ter direção. Escolha as prioridades para os próximos meses.</p>
+
+          <div class="checks">
+            <label><input type="checkbox" name="objetivos" value="Gerar mais leads" /> Gerar mais leads</label>
+            <label><input type="checkbox" name="objetivos" value="Aumentar autoridade" /> Aumentar autoridade</label>
+            <label><input type="checkbox" name="objetivos" value="Melhorar posicionamento" /> Melhorar posicionamento</label>
+            <label><input type="checkbox" name="objetivos" value="Vender mais pelo WhatsApp" /> Vender mais pelo WhatsApp</label>
+            <label><input type="checkbox" name="objetivos" value="Atrair público premium" /> Atrair público premium</label>
+            <label><input type="checkbox" name="objetivos" value="Organizar presença digital" /> Organizar presença digital</label>
+          </div>
+
+          <label class="full">Objetivo principal
+            <textarea name="objetivoPrincipal" placeholder="Ex: captar pacientes particulares, vender mais imóveis, gerar orçamentos..."></textarea>
+          </label>
+        </section>
+
+        <section class="form-step" data-title="Acessos e contatos">
+          <h2>Acessos e contatos</h2>
+          <p>Não envie senhas sensíveis por aqui se preferir. Você pode informar como serão compartilhadas.</p>
+
+          <div class="grid">
+            <label>Como os acessos serão enviados?
+              <select name="envioAcessos">
+                <option value="">Selecione</option>
+                <option>WhatsApp</option>
+                <option>E-mail</option>
+                <option>Gerenciador Meta Business</option>
+                <option>Google Drive</option>
+                <option>Outro</option>
+              </select>
+            </label>
+            <label>Responsável por aprovações
+              <input name="responsavelAprovacao" placeholder="Nome e WhatsApp" />
+            </label>
+            <label>Instagram
+              <input name="instagram" placeholder="@perfil ou link" />
+            </label>
+            <label>Site
+              <input name="site" placeholder="https://..." />
+            </label>
+          </div>
+        </section>
+
+        <section class="form-step" data-title="Referências">
+          <h2>Referências</h2>
+          <p>Mostre materiais que ajudam a entender o gosto visual e a direção da marca.</p>
+
+          <div class="grid">
+            <label>Referências visuais
+              <textarea name="referenciasVisuais" placeholder="Links de perfis, posts, marcas ou campanhas"></textarea>
+            </label>
+            <label>Pasta com fotos, vídeos e materiais
+              <textarea name="pastaMateriais" placeholder="Google Drive, Dropbox, WeTransfer..."></textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="form-step" data-title="Informações adicionais">
+          <h2>Informações adicionais</h2>
+          <p>Detalhes finais para ajudar a AXIS 1 a iniciar com mais precisão.</p>
+
+          <div class="grid">
+            <label>Produtos ou serviços principais
+              <textarea name="servicos" placeholder="Liste os principais serviços/produtos"></textarea>
+            </label>
+            <label>Cliente ideal
+              <textarea name="clienteIdeal" placeholder="Descreva perfil, dores, região, poder aquisitivo..."></textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="form-step" data-title="Resumo final">
+          <h2>Resumo final</h2>
+          <p>Finalize para gerar um resumo que pode ser copiado, baixado ou enviado pelo WhatsApp.</p>
+
+          <label class="full">Observações finais
+            <textarea name="observacoes" placeholder="Algo importante que ainda não foi citado?"></textarea>
+          </label>
+
+          <pre id="summary" class="summary">Clique em “Finalizar” para gerar o resumo.</pre>
+        </section>
+
+        <div class="form-footer">
+          <button type="button" class="secondary" id="prevBtn">← Voltar</button>
+          <span>✓ Salvando automaticamente...</span>
+          <button type="button" id="nextBtn">Próximo →</button>
+          <button type="submit" id="finishBtn" class="hidden">Finalizar</button>
         </div>
+      </form>
 
-        <label>Nome da empresa / Marca *
-            <input placeholder="Ex: Clínica Exemplo">
-        </label>
+      <div class="actions">
+        <button id="copyBtn" type="button">Copiar resumo</button>
+        <button id="downloadBtn" type="button">Baixar TXT</button>
+        <button id="whatsappBtn" type="button">Enviar WhatsApp</button>
+      </div>
+    </main>
+  </div>
 
-        <label>Site / Instagram da empresa
-            <input placeholder="@seudominio ou https://...">
-        </label>
-
-        <button type="button">Próximo →</button>
-    </form>
-</div>
-
-<div class="footer-card">
-🔒 Privacidade garantida: suas informações são confidenciais e utilizadas apenas para planejamento estratégico.
-</div>
-
-</section>
-
-</main>
-</div>
-
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
 </body>
 </html>
