@@ -34,6 +34,20 @@ function load(){
   }catch(e){}
 }
 
+
+function hasRequiredData(){
+  const d = collect();
+  return Boolean((d.nome || "").trim() && (d.email || "").trim() && (d.whatsapp || "").trim() && (d.empresa || "").trim());
+}
+
+function ensureReady(){
+  if(!hasRequiredData()){
+    showToast("Finalize o onboarding preenchendo os campos obrigatórios antes de usar essa opção.");
+    return false;
+  }
+  return true;
+}
+
 function buildSummary(){
   const d = collect();
   return `ONBOARDING AXIS 1
@@ -65,17 +79,21 @@ form.addEventListener("submit", e=>{
   save();
   summary.textContent = buildSummary();
   result.classList.remove("hidden");
+  const finalActions = document.getElementById("finalActions");
+  if(finalActions) finalActions.classList.remove("hidden");
   result.scrollIntoView({behavior:"smooth"});
   showToast("Onboarding gerado com sucesso.");
 });
 
 document.getElementById("copyBtn").onclick = () => {
+  if(!ensureReady()) return;
   navigator.clipboard.writeText(buildSummary()).then(()=>showToast("Resumo copiado."));
 };
 
-document.getElementById("downloadBtn").onclick = downloadTxt;
+document.getElementById("downloadBtn").onclick = () => { if(!ensureReady()) return; downloadTxt(); };
 
 document.getElementById("whatsappBtn").onclick = () => {
+  if(!ensureReady()) return;
   window.open(`https://wa.me/${AXIS_WHATSAPP}?text=${encodeURIComponent(buildSummary())}`, "_blank");
 };
 
