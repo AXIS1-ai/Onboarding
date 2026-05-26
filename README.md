@@ -1,12 +1,10 @@
 # AXIS 1 Onboarding
 
-Arquivos prontos para GitHub Pages.
+Versão com logo embutido diretamente no HTML para evitar quebra de imagem no GitHub Pages.
 
-Suba todos os arquivos:
+Suba apenas:
 - index.html
 - style.css
 - script.js
-- logo-axis1.png
 
-Configuração:
-Settings > Pages > Branch main > root
+Não precisa subir arquivo de logo separado.
