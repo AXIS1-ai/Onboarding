@@ -63,3 +63,24 @@ pre{white-space:pre-wrap;line-height:1.55;color:#dfe2ea;background:#080b11;borde
 .result-actions{flex-direction:column}
 button{width:100%}
 }
+
+
+.success-box{
+    margin:20px 0;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid rgba(255,106,0,.25);
+    background:rgba(255,106,0,.06);
+}
+
+.success-box p{
+    margin:10px 0;
+    color:#dfe2ea;
+    font-weight:600;
+}
+
+.result h3{
+    margin:20px 0 12px;
+    color:#fff;
+    font-size:20px;
+}
