@@ -22,7 +22,7 @@ button,input,textarea{font:inherit}
 .save span{display:inline-block;width:10px;height:10px;border-radius:50%;background:#19d45b;margin-left:8px}
 .hero{text-align:center;margin-top:20px}
 .hero-logo{width:300px;max-width:80%;height:auto;margin-bottom:24px}
-.hero h1{font-size:62px;line-height:1;font-weight:1000}
+.hero h1{font-size:56px;line-height:1;font-weight:1000}
 .hero p{margin-top:14px;color:#c9ccd5;font-size:20px}
 .progress{display:flex;align-items:center;justify-content:center;margin-top:34px}
 .circle{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#151a23;border:1px solid rgba(255,255,255,.12);font-weight:900}
