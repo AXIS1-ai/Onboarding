@@ -28,7 +28,7 @@ button,input,textarea{font:inherit}
 .circle{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#151a23;border:1px solid rgba(255,255,255,.12);font-weight:900}
 .circle.active{background:var(--orange)}
 .line{width:90px;height:2px;background:rgba(255,255,255,.12)}
-.card{margin-top:38px;padding:34px;border-radius:30px;border:1px solid var(--line);background:rgba(8,11,18,.88);backdrop-filter:blur(10px)}
+.card{margin-top:38px;padding:34px;border-radius:34px;border:1px solid var(--line);background:rgba(8,11,18,.88);backdrop-filter:blur(10px)}
 .welcome{display:grid;grid-template-columns:1fr 1.12fr;gap:42px}
 .welcome h2{font-size:42px;margin-bottom:18px}
 .welcome p{color:#c6c8d0;line-height:1.7;font-size:17px}
