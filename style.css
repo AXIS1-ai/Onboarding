@@ -84,3 +84,13 @@ button{width:100%}
     color:#fff;
     font-size:20px;
 }
+
+
+.progress-info{
+    text-align:center;
+    margin-top:16px;
+    color:#9da3af;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:.03em;
+}
